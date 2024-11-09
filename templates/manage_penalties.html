@@ -1,0 +1,78 @@
+<!-- templates/manage_penalties.html -->
+
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Manage Penalties</h2>
+    
+    <form method="POST" action="{{ url_for('manage_penalties') }}">
+        {{ form.hidden_tag() }}
+        
+        <div class="mb-3">
+            {{ form.user_id.label(class="form-label") }}
+            {{ form.user_id(class="form-select") }}
+            {% for error in form.user_id.errors %}
+                <div class="text-danger">{{ error }}</div>
+            {% endfor %}
+        </div>
+        
+        <div class="mb-3">
+            {{ form.description.label(class="form-label") }}
+            {{ form.description(class="form-control", placeholder="Enter penalty description") }}
+            {% for error in form.description.errors %}
+                <div class="text-danger">{{ error }}</div>
+            {% endfor %}
+        </div>
+        
+        <div class="mb-3">
+            {{ form.amount.label(class="form-label") }}
+            {{ form.amount(class="form-control", placeholder="Enter amount in GHS") }}
+            {% for error in form.amount.errors %}
+                <div class="text-danger">{{ error }}</div>
+            {% endfor %}
+        </div>
+        
+        <div class="mb-3">
+            {{ form.remark.label(class="form-label") }}
+            {{ form.remark(class="form-control", placeholder="Enter remark (optional)") }}
+            {% for error in form.remark.errors %}
+                <div class="text-danger">{{ error }}</div>
+            {% endfor %}
+        </div>
+        
+        <div class="d-grid">
+            {{ form.submit(class="btn btn-success") }}
+        </div>
+    </form>
+    
+    <hr>
+    
+    <h4>Existing Penalties</h4>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>User</th>
+                <th>Description</th>
+                <th>Amount (GHS)</th>
+                <th>Remark</th>
+                <th>Timestamp</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for penalty in penalties %}
+                <tr>
+                    <td>{{ penalty.user.username }}</td>
+                    <td>{{ penalty.description }}</td>
+                    <td>{{ penalty.amount }}</td>
+                    <td>{{ penalty.remark }}</td>
+                    <td>{{ penalty.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5" class="text-center">No penalties found.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

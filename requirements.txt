@@ -1,0 +1,9 @@
+# requirements.txt
+
+Flask
+Flask-Login
+Flask-WTF
+Flask-SQLAlchemy
+qrcode
+APScheduler
+twilio

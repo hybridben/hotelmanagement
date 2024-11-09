@@ -1,0 +1,63 @@
+<!-- templates/checkin.html -->
+
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Employee Check-In</h2>
+    
+    <!-- User Greeting -->
+    <div class="alert alert-info" role="alert">
+        Welcome, <strong>{{ current_user.full_name }}</strong>!
+    </div>
+    
+    <!-- Instructions -->
+    <p>Please scan your unique QR code below to check in for today. Once checked in, you cannot check in again until tomorrow.</p>
+    
+    <!-- QR Code Scanner -->
+    <div id="reader" width="600px"></div>
+    
+    <!-- Check-In Form -->
+    <form id="checkin-form" method="POST" action="{{ url_for('checkin') }}">
+        {{ form.hidden_tag() }}
+        
+        <!-- Hidden Field to Store Scanned QR Code Data -->
+        {{ form.qr_code_data(class="form-control d-none") }}
+        
+        <!-- Submit Button (renamed to avoid conflicts) -->
+        <div class="d-grid mt-3">
+            {{ form.checkin_button(class="btn btn-primary btn-lg", value="Check In") }}
+        </div>
+    </form>
+    
+    <!-- Include html5-qrcode library -->
+    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+    <script>
+        function onScanSuccess(decodedText, decodedResult) {
+            console.log(`Scan successful: ${decodedText}`);
+            
+            // Set the decoded QR code data into the hidden form field
+            document.getElementById("qr_code_data").value = decodedText;
+            
+            // Automatically submit the form to log check-in
+            document.getElementById('checkin-form').submit();
+            
+            // Stop the scanner after a successful scan
+            html5QrcodeScanner.clear().then(ignore => {
+                console.log("Scanner stopped.");
+            }).catch(error => {
+                console.error("Failed to clear scanner.", error);
+            });
+        }
+
+        function onScanFailure(error) {
+            // Handle scan failure, usually better to ignore and keep scanning.
+            console.warn(`Scan error: ${error}`);
+        }
+
+        // Initialize the QR code scanner
+        let html5QrcodeScanner = new Html5QrcodeScanner(
+            "reader", { fps: 10, qrbox: 250 });
+        html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+    </script>
+</div>
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Manager Dashboard</h2>
+
+    <!-- Check-ins Table -->
+    <div class="row">
+        <div class="col-md-6">
+            <h4>Check-ins</h4>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>Timestamp</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for checkin in checkins %}
+                        <tr>
+                            <td>{{ checkin.user.username }}</td>
+                            <td>{{ checkin.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="2" class="text-center">No check-ins found.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="col-md-6">
+            <h4>Penalties</h4>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>Description</th>
+                        <th>Amount (GHS)</th>
+                        <th>Timestamp</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for penalty in penalties %}
+                        <tr>
+                            <td>{{ penalty.user.username }}</td>
+                            <td>{{ penalty.description }}</td>
+                            <td>{{ penalty.amount }}</td>
+                            <td>{{ penalty.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="4" class="text-center">No penalties found.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

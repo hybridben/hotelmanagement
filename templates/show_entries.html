@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Data Entries</title>
+</head>
+<body>
+    <h1>Data Entries</h1>
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Category</th>
+            <th>Sales</th>
+            <th>Expenses</th>
+            <th>Advance Pay</th>
+            <th>Debt</th>
+            <th>Number of Rooms</th>
+            <th>Product Amount</th>
+            <th>Timestamp</th>
+        </tr>
+        {% for entry in entries %}
+        <tr>
+            <td>{{ entry.id }}</td>
+            <td>{{ entry.category }}</td>
+            <td>{{ entry.sales }}</td>
+            <td>{{ entry.expenses }}</td>
+            <td>{{ entry.advance_pay }}</td>
+            <td>{{ entry.debt }}</td>
+            <td>{{ entry.number_of_rooms }}</td>
+            <td>{{ entry.product_amount }}</td>
+            <td>{{ entry.timestamp }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

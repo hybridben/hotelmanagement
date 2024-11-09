@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+    <h2>{{ job_role }} Dashboard</h2>
+    
+    <!-- Check-in Information -->
+    <div class="card mb-4">
+        <div class="card-header">
+            Recent Check-ins
+        </div>
+        <div class="card-body">
+            {% if checkins %}
+                <ul class="list-group">
+                    {% for checkin in checkins %}
+                        <li class="list-group-item">
+                            Checked in at: {{ checkin.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="text-muted">No check-ins recorded yet.</p>
+            {% endif %}
+        </div>
+    </div>
+    
+    <!-- Penalties Information -->
+    <div class="card mb-4">
+        <div class="card-header">
+            Penalties
+        </div>
+        <div class="card-body">
+            {% if penalties %}
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Description</th>
+                            <th>Amount (GHS)</th>
+                            <th>Remark</th>
+                            <th>Timestamp</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for penalty in penalties %}
+                            <tr>
+                                <td>{{ penalty.description }}</td>
+                                <td>{{ penalty.amount }}</td>
+                                <td>{{ penalty.remark }}</td>
+                                <td>{{ penalty.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p class="text-muted">No penalties issued.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

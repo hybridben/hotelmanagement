@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Edit User</h2>
+    <form method="POST" action="{{ url_for('edit_user', user_id=user.id) }}">
+        {{ form.hidden_tag() }}
+        
+        <div class="mb-3">
+            {{ form.full_name.label(class="form-label") }}
+            {{ form.full_name(class="form-control", placeholder="Enter full name") }}
+            {% for error in form.full_name.errors %}
+                <div class="text-danger">{{ error }}</div>
+            {% endfor %}
+        </div>
+        
+        <div class="mb-3">
+            {{ form.username.label(class="form-label") }}
+            {{ form.username(class="form-control", placeholder="Enter username") }}
+            {% for error in form.username.errors %}
+                <div class="text-danger">{{ error }}</div>
+            {% endfor %}
+        </div>
+        
+        <div class="mb-3">
+            {{ form.password.label(class="form-label") }}
+            {{ form.password(class="form-control", placeholder="Enter new password (leave blank to keep current)") }}
+            {% for error in form.password.errors %}
+                <div class="text-danger">{{ error }}</div>
+            {% endfor %}
+        </div>
+        
+        <div class="mb-3">
+            {{ form.confirm_password.label(class="form-label") }}
+            {{ form.confirm_password(class="form-control", placeholder="Confirm new password") }}
+            {% for error in form.confirm_password.errors %}
+                <div class="text-danger">{{ error }}</div>
+            {% endfor %}
+        </div>
+        
+        <div class="mb-3">
+            {{ form.role.label(class="form-label") }}
+            {{ form.role(class="form-select", id="role-select") }}
+            {% for error in form.role.errors %}
+                <div class="text-danger">{{ error }}</div>
+            {% endfor %}
+        </div>
+
+        <div class="mb-3" id="job-role-field" style="display: none;">
+            {{ form.job_role.label(class="form-label") }}
+            {{ form.job_role(class="form-select") }}
+            {% for error in form.job_role.errors %}
+                <div class="text-danger">{{ error }}</div>
+            {% endfor %}
+        </div>
+        
+        <div class="d-grid">
+            {{ form.submit(class="btn btn-primary") }}
+        </div>
+    </form>
+</div>
+
+<script>
+    // JavaScript to toggle the display of the job_role field based on role selection
+    document.getElementById('role-select').addEventListener('change', function() {
+        const jobRoleField = document.getElementById('job-role-field');
+        jobRoleField.style.display = this.value === 'chairman' ? 'none' : 'block';
+    });
+    
+    // Initialize the display based on current role value
+    document.addEventListener('DOMContentLoaded', function() {
+        const roleSelect = document.getElementById('role-select');
+        const jobRoleField = document.getElementById('job-role-field');
+        jobRoleField.style.display = roleSelect.value === 'chairman' ? 'none' : 'block';
+    });
+</script>
+{% endblock %}
