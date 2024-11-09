@@ -7,3 +7,5 @@ Flask-SQLAlchemy
 qrcode
 APScheduler
 twilio
+gunicorn
+
