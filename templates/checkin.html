@@ -21,7 +21,7 @@
         <!-- Hidden Field to Store Scanned QR Code Data -->
         {{ form.qr_code_data(class="form-control d-none") }}
         
-        <!-- Submit Button (renamed to avoid conflicts) -->
+        <!-- Submit Button -->
         <div class="d-grid mt-3">
             {{ form.checkin_button(class="btn btn-primary btn-lg", value="Check In") }}
         </div>
@@ -48,14 +48,23 @@
         }
 
         function onScanFailure(error) {
-            // Handle scan failure, usually better to ignore and keep scanning.
             console.warn(`Scan error: ${error}`);
         }
 
         // Initialize the QR code scanner
         let html5QrcodeScanner = new Html5QrcodeScanner(
-            "reader", { fps: 10, qrbox: 250 });
+            "reader", 
+            { fps: 10, qrbox: 250 }
+        );
         html5QrcodeScanner.render(onScanSuccess, onScanFailure);
     </script>
+
+    <!-- CSS to hide the "Switch to Image File" option -->
+    <style>
+        /* Hide the link or button to switch to image scanning mode */
+        #html5-qrcode-anchor-scan-type-change {
+            display: none !important;
+        }
+    </style>
 </div>
 {% endblock %}
