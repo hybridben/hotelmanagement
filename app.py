@@ -213,7 +213,7 @@ def manage_penalties():
 @app.route('/history', methods=['GET', 'POST'])
 @login_required
 def history():
-    if current_user.role != 'manager':
+    if current_user.role != 'chairman':
         flash('Unauthorized access!', 'danger')
         return redirect(url_for('dashboard'))
     
