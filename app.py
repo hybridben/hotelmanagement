@@ -22,7 +22,7 @@ JOB_ROLE_TIMES = {
     "DAY RECEPTIONIST": time(7, 30),
     "THE CLEANER": time(8, 30),
     "HOUSE KEEPING": time(8, 30),
-    "NIGHT RECEPTIONIST": time(17, 0),  # Night Receptionist can check in only after 5:00 PM
+    "NIGHT RECEPTIONIST": time(17, 30),  # Check-in deadline for Night Receptionist at 5:30 PM
     "SUPERVISOR": time(8, 0),
 }
 
@@ -101,11 +101,13 @@ def checkin():
     form = CheckinForm()
     now = datetime.utcnow()
 
-    # Restriction for NIGHT RECEPTIONIST: check-in only after 5:00 PM
+    # Restriction for NIGHT RECEPTIONIST: can check in only between 5:00 PM and 5:30 PM
     if current_user.job_role and current_user.job_role.upper() == "NIGHT RECEPTIONIST":
-        allowed_checkin_time = time(17, 0)
-        if now.time() < allowed_checkin_time:
-            flash("Check-in for Night Receptionist is only allowed after 5:00 PM.", "warning")
+        allowed_checkin_start = time(17, 0)
+        allowed_checkin_end = JOB_ROLE_TIMES["NIGHT RECEPTIONIST"]
+        
+        if not (allowed_checkin_start <= now.time() <= allowed_checkin_end):
+            flash("Check-in for Night Receptionist is only allowed between 5:00 PM and 5:30 PM.", "warning")
             return redirect(url_for('dashboard'))
 
     last_checkin = Checkin.query.filter_by(user_id=current_user.id).order_by(Checkin.timestamp.desc()).first()
